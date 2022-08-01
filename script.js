@@ -1,9 +1,16 @@
 // 最先载入图片
-const downloadingImage = new Image()
-downloadingImage.src = 'my-sprite.png'
+const normalImage = new Image()
+normalImage.src = 'my-sprite.png'
+const eyesClosedImage = new Image()
+eyesClosedImage.src = 'my-sprite_closedEyes.png'
+let frame = 0,
+  toClose = 30,
+  closeDuration = 6
 
 let canvas, context
 let isHFlip = false
+
+const getRandomInt = (max) => Math.floor(Math.random() * max)
 
 const hflip = () => {
   isHFlip = !isHFlip
@@ -84,8 +91,18 @@ const analyze = () => {
   // 清空canvas 重新绘制
   context.clearRect(0, 0, canvas.width, canvas.height)
 
-  // 用image作背景
-  context.drawImage(downloadingImage, 180, 50, 256, 256)
+  // 用image作背景 frame 用于计算眨眼
+  frame += 1
+  if (frame < toClose) {
+    context.drawImage(normalImage, 180, 50, 256, 256)
+  } else {
+    context.drawImage(eyesClosedImage, 180, 50, 256, 256)
+    if (frame > toClose + closeDuration) {
+      frame = 0
+      toClose = getRandomInt(60) + 40
+      closeDuration = getRandomInt(6) + 6
+    }
+  }
 
   // 画线段图
   analyserNode.getByteFrequencyData(dataArray)
