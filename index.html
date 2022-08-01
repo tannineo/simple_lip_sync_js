@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>LipSyncRobot</title>
+    <script src="script.js" defer></script>
+    <style>
+      audio {
+        width: 640px;
+      }
+      canvas {
+        background-color: #000000;
+      }
+      .green {
+        color: #009900;
+      }
+      .red {
+        color: #ff0000;
+      }
+    </style>
+  </head>
+  <body onload="init()">
+    <p>LipSyncRobot</p>
+    麦克风：
+    <button type="button" id="connect" onclick="connectMic()">启用</button>
+    <button type="button" id="disconnect" onclick="disconnectMic()">
+      断开
+    </button>
+    <span id="status"></span>
+    <hr />
+    音频文件
+    <input
+      type="file"
+      accept="audio/*"
+      onchange="loadAudio(this.files)"
+    /><br />
+    <audio id="audio" autoplay controls></audio>
+    <hr />
+    阈值：<input type="number" id="t" value="60" step="10" min="0" max="500" />
+    监听音量：
+    <input
+      type="range"
+      id="mic"
+      min="0"
+      max="1"
+      step="0.1"
+      value="0"
+      onchange="setVolume()"
+    /><span id="micText">[0.5]</span>
+    <hr />
+    <canvas id="visualizer" width="640" height="480"></canvas>
+    <button type="button" id="hflip" onclick="hflip()">水平翻转</button>
+  </body>
+</html>
